@@ -2,6 +2,8 @@
 
 Webapp Angular para consultar a taxa de câmbio do Real Brasileiro (BRL) contra outras moedas.
 
+## Link de [acesso](https://angular-currency-exchange-tau.vercel.app/)
+
 ## 📋 Visão Geral
 
 Este projeto foi desenvolvido como parte do teste técnico da Action Labs. A aplicação permite que o usuário consulte:
@@ -166,3 +168,5 @@ Este projeto foi desenvolvido para fins de avaliação técnica.
 
 **Desenvolvido para:** Action Labs  
 **Tecnologias:** Angular 19, TypeScript, SCSS, RxJS
+
+## Link de [acesso](https://angular-currency-exchange-tau.vercel.app/)

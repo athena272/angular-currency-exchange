@@ -1,0 +1,104 @@
+<div class="container">
+  <header class="header">
+    <img src="assets/action-labs-logo.svg" alt="Action Labs" class="logo">
+    <h1 class="title">BRL EXCHANGE RATE</h1>
+  </header>
+
+  <main class="main">
+    <form (ngSubmit)="onSubmit()" class="form">
+      <div class="form-group">
+        <label for="currencyCode" class="form-label">Enter the currency code</label>
+        <input
+          type="text"
+          id="currencyCode"
+          name="currencyCode"
+          [(ngModel)]="currencyCode"
+          class="form-input"
+          placeholder="Ex: USD, EUR, GBP"
+          maxlength="3"
+          [disabled]="isLoadingCurrent"
+          required
+        >
+      </div>
+      <button type="submit" class="btn-submit" [disabled]="isLoadingCurrent">
+        {{ isLoadingCurrent ? 'LOADING...' : 'EXCHANGE RESULT' }}
+      </button>
+    </form>
+
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+
+    <section *ngIf="currentRate" class="current-rate">
+      <h2 class="section-title">Exchange rate now</h2>
+      <p class="rate-date">{{ formatDateTime(currentRate.lastUpdatedAt) }}</p>
+      <p class="rate-pair">{{ currentRate.from }}/{{ currentRate.to }}</p>
+      <div class="rate-value">
+        {{ formatCurrency(currentRate.exchangeRate) }}
+      </div>
+    </section>
+
+    <section *ngIf="currentRate" class="daily-section">
+      <button 
+        type="button"
+        class="accordion-toggle" 
+        (click)="toggleDailyRates()"
+        [attr.aria-expanded]="showDailyRates"
+      >
+        <span>LAST 30 DAYS</span>
+        <span class="toggle-icon">{{ showDailyRates ? '−' : '+' }}</span>
+      </button>
+
+      <div *ngIf="showDailyRates" class="daily-content">
+        <div *ngIf="isLoadingDaily" class="loading">Loading daily rates...</div>
+        
+        <div *ngIf="!isLoadingDaily && dailyRates.length > 0" class="daily-list">
+          <div *ngFor="let rate of dailyRates; let i = index" class="daily-card">
+            <div class="daily-header">
+              <span class="daily-date">{{ formatDate(rate.date) }}</span>
+            </div>
+            <div class="daily-body">
+              <div class="daily-column">
+                <div class="daily-item">
+                  <span class="daily-label">OPEN</span>
+                  <span class="daily-value">{{ formatCurrency(rate.open) }}</span>
+                </div>
+                <div class="daily-item">
+                  <span class="daily-label">CLOSE</span>
+                  <span class="daily-value">{{ formatCurrency(rate.close) }}</span>
+                </div>
+              </div>
+              <div class="daily-column">
+                <div class="daily-item">
+                  <span class="daily-label">HIGH</span>
+                  <span class="daily-value">{{ formatCurrency(rate.high) }}</span>
+                </div>
+                <div class="daily-item">
+                  <span class="daily-label">LOW</span>
+                  <span class="daily-value">{{ formatCurrency(rate.low) }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="daily-footer">
+              <span class="diff-label">CLOSE DIFF (%)</span>
+              <span 
+                class="diff-value"
+                [class.positive]="calculateCloseDiff(i).isPositive"
+                [class.negative]="!calculateCloseDiff(i).isPositive && !calculateCloseDiff(i).isNeutral"
+                [class.neutral]="calculateCloseDiff(i).isNeutral"
+              >
+                <ng-container *ngIf="!calculateCloseDiff(i).isNeutral">
+                  <span class="diff-arrow">{{ calculateCloseDiff(i).isPositive ? '▲' : '▼' }}</span>
+                  {{ calculateCloseDiff(i).isPositive ? '+' : '' }}{{ calculateCloseDiff(i).value.toFixed(2) }}%
+                </ng-container>
+                <ng-container *ngIf="calculateCloseDiff(i).isNeutral">
+                  —
+                </ng-container>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

@@ -39,7 +39,10 @@ export class AppComponent {
     this.exchangeService.getCurrentExchangeRate(code).subscribe({
       next: (data) => {
         if (data.success) {
-          this.currentRate = data;
+          this.currentRate = {
+            ...data,
+            lastUpdatedAt: new Date().toISOString()
+          };
         } else {
           this.error = 'Falha ao buscar câmbio. Tente novamente.';
         }

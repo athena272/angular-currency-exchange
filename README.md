@@ -80,16 +80,6 @@ closeDiffPercent = ((closeAtual - closeAnterior) / closeAnterior) * 100
 - **Negativo:** exibe `-X.XX%` em vermelho com seta ▼
 - **Primeiro item (sem anterior):** exibe `—` (neutro)
 
-## 🧮 Cálculo do CLOSE DIFF (%)
-
-```typescript
-closeDiffPercent = ((closeAtual - closeAnterior) / closeAnterior) * 100
-```
-
-- **Positivo:** exibe `+X.XX%` em verde com seta ▲
-- **Negativo:** exibe `-X.XX%` em vermelho com seta ▼
-- **Primeiro item (sem anterior):** exibe `—` (neutro)
-
 **Observação:** O "dia anterior" refere-se ao item anterior na série temporal retornada pela API, não necessariamente D-1 no calendário (devido a fins de semana/feriados).
 
 ## 📁 Estrutura de Pastas

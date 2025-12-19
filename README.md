@@ -38,17 +38,17 @@ Acesse: `http://localhost:4200`
 
 ## ⚙️ Configuração da API
 
-**Base URL:** `https://api-brl-exchange.actionlabs.com.br/api/1.0`  
+**Base URL:** `https://api-brl-exchange.actionlabs.com.br/api/1.0`
 **API Key:** `RVZG0GHEV2KORLNA`
 
 A configuração está em: `src/app/core/models/environment.ts`
 
 ### Endpoints Utilizados
 
-1. **Taxa Atual:**  
+1. **Taxa Atual:**
    `GET /open/currentExchangeRate?apiKey={key}&from_symbol={moeda}&to_symbol=BRL`
 
-2. **Histórico Diário:**  
+2. **Histórico Diário:**
    `GET /open/dailyExchangeRate?apiKey={key}&from_symbol={moeda}&to_symbol=BRL`
 
 ### Rate Limits
@@ -67,6 +67,16 @@ Cores utilizadas (conforme Figma):
 - Azul: `#07B0FB`
 - Verde: `#69C669` (variação positiva)
 - Vermelho: `#E54E4E` (variação negativa)
+
+## 🧮 Cálculo do CLOSE DIFF (%)
+
+```typescript
+closeDiffPercent = ((closeAtual - closeAnterior) / closeAnterior) * 100
+```
+
+- **Positivo:** exibe `+X.XX%` em verde com seta ▲
+- **Negativo:** exibe `-X.XX%` em vermelho com seta ▼
+- **Primeiro item (sem anterior):** exibe `—` (neutro)
 
 ## 🧮 Cálculo do CLOSE DIFF (%)
 

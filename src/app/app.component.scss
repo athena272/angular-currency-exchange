@@ -1,16 +1,17 @@
 .container {
+  background: #ffffff;
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
 .header {
   text-align: center;
-  margin-bottom: 40px;
 }
 
 .logo {
-  width: 120px;
+  width: 180px;
   height: auto;
   margin-bottom: 20px;
 }
@@ -18,15 +19,13 @@
 .title {
   font-size: 24px;
   font-weight: 700;
-  color: #ffffff;
+  text-align: center;
+  color: #000;
   letter-spacing: 1px;
 }
 
 .main {
-  background: #ffffff;
-  border-radius: 16px;
   padding: 30px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
 .form {
@@ -73,7 +72,7 @@
   color: #ffffff;
   background: #07B0FB;
   border: none;
-  border-radius: 8px;
+  border-radius: 100px;
   cursor: pointer;
   transition: background 0.3s;
 
@@ -262,6 +261,20 @@
 
 .diff-arrow {
   font-size: 10px;
+}
+
+footer {
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #07B0FB;
+  border-radius: 0 0 4px 4px;
+
+  p {
+    color: #FFFFFF;
+    text-align: center;
+  }
 }
 
 @media (max-width: 480px) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { CurrentExchangeRateResponse, DailyExchangeRateResponse } from '../models/exchange.model';
 import { environment } from '../models/environment';
 
@@ -29,6 +29,11 @@ export class ExchangeService {
       `${environment.apiBaseUrl}/open/currentExchangeRate`,
       { params }
     ).pipe(
+      map((res: any) => ({
+        ...res,
+        from: res.from ?? res.fromSymbol,
+        to: res.to ?? res.toSymbol
+      } as CurrentExchangeRateResponse)),
       tap(data => this.cache.set(cacheKey, data))
     );
   }
@@ -49,6 +54,12 @@ export class ExchangeService {
       `${environment.apiBaseUrl}/open/dailyExchangeRate`,
       { params }
     ).pipe(
+      map((res: any) => ({
+        ...res,
+        from: res.from ?? res.fromSymbol,
+        to: res.to ?? res.toSymbol,
+        data: res.data || []
+      } as DailyExchangeRateResponse)),
       tap(data => this.cache.set(cacheKey, data))
     );
   }

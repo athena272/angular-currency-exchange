@@ -140,14 +140,6 @@ angular-currency-exchange/
 - A ordenação dos dados diários segue a ordem retornada pela API
 - O primeiro item do histórico não possui "dia anterior", então exibe `—` no CLOSE DIFF
 
-## 🧪 Testes
-
-Para rodar os testes (quando implementados):
-
-```bash
-ng test
-```
-
 ## 🏗️ Build
 
 ```bash

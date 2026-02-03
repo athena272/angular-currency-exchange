@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { CurrentExchangeRateResponse, DailyExchangeRateResponse } from '../models/exchange.model';
-import { environment } from '../models/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,10 @@ import { environment } from '../models/environment';
 export class ExchangeService {
   private cache = new Map<string, any>();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private config: ConfigService
+  ) {}
 
   getCurrentExchangeRate(fromSymbol: string, toSymbol: string = 'BRL'): Observable<CurrentExchangeRateResponse> {
     const cacheKey = `current_${fromSymbol}_${toSymbol}`;
@@ -21,12 +24,12 @@ export class ExchangeService {
     }
 
     const params = new HttpParams()
-      .set('apiKey', environment.apiKey)
+      .set('apiKey', this.config.apiKey)
       .set('from_symbol', fromSymbol)
       .set('to_symbol', toSymbol);
 
     return this.http.get<CurrentExchangeRateResponse>(
-      `${environment.apiBaseUrl}/open/currentExchangeRate`,
+      `${this.config.apiBaseUrl}/open/currentExchangeRate`,
       { params }
     ).pipe(
       map((res: any) => ({
@@ -46,12 +49,12 @@ export class ExchangeService {
     }
 
     const params = new HttpParams()
-      .set('apiKey', environment.apiKey)
+      .set('apiKey', this.config.apiKey)
       .set('from_symbol', fromSymbol)
       .set('to_symbol', toSymbol);
 
     return this.http.get<DailyExchangeRateResponse>(
-      `${environment.apiBaseUrl}/open/dailyExchangeRate`,
+      `${this.config.apiBaseUrl}/open/dailyExchangeRate`,
       { params }
     ).pipe(
       map((res: any) => ({

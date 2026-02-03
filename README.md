@@ -40,10 +40,35 @@ Acesse: `http://localhost:4200`
 
 ## ⚙️ Configuração da API
 
-**Base URL:** `https://api-brl-exchange.actionlabs.com.br/api/1.0`
-**API Key:** `RVZG0GHEV2KORLNA`
+A aplicação carrega a configuração em **tempo de execução** a partir do arquivo `config.json`, que **não fica no repositório** (evita expor chaves no código).
 
-A configuração está em: `src/app/core/models/environment.ts`
+**Antes de rodar o projeto:**
+
+1. Copie o exemplo de configuração:
+   ```bash
+   cp public/config.example.json public/config.json
+   ```
+2. Edite `public/config.json` e preencha sua API Key (e a base URL se necessário).
+
+Exemplo de `config.json`:
+```json
+{
+  "apiBaseUrl": "https://api-brl-exchange.actionlabs.com.br/api/1.0",
+  "apiKey": "sua-api-key-aqui"
+}
+```
+
+### Deploy na Vercel
+
+Na Vercel, use **variáveis de ambiente** em vez de commitar o `config.json`. O build gera o arquivo a partir delas.
+
+1. No projeto na [Vercel](https://vercel.com), vá em **Settings → Environment Variables**.
+2. Crie as variáveis:
+   - **`EXCHANGE_API_KEY`** (obrigatória) — sua API Key.
+   - **`EXCHANGE_API_BASE_URL`** (opcional) — base URL da API. Se não definir, usa `https://api-brl-exchange.actionlabs.com.br/api/1.0`.
+3. Faça um novo deploy (ou deixe o deploy automático rodar).
+
+O `vercel.json` está configurado para rodar `node scripts/generate-config.js && ng build`. O script gera o `public/config.json` durante o build usando essas variáveis, então a chave nunca precisa ficar no repositório.
 
 ### Endpoints Utilizados
 
@@ -91,8 +116,9 @@ angular-currency-exchange/
 │   │   ├── core/
 │   │   │   ├── models/
 │   │   │   │   ├── exchange.model.ts      # Interfaces TypeScript
-│   │   │   │   └── environment.ts         # Config API
+│   │   │   │   └── app-config.ts          # Interface da config
 │   │   │   └── services/
+│   │   │       ├── config.service.ts      # Carrega config.json em runtime
 │   │   │       └── exchange.service.ts    # Service com cache
 │   │   ├── app.component.ts               # Componente principal
 │   │   ├── app.component.html             # Template
@@ -101,6 +127,7 @@ angular-currency-exchange/
 │   ├── main.ts
 │   └── styles.scss                        # Estilos globais
 ├── public/
+│   ├── config.example.json   # Modelo de config (copie para config.json)
 │   └── assets/
 │       └── action-labs-logo.svg
 ├── angular.json
